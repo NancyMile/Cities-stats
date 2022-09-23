@@ -12,45 +12,22 @@
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
     ></script>
-  <title>Nearly City and Weather!</title>
+  <title>Cities General Information!</title>
 </head>
-
-<body class="flex-column min-100-vh">
-  <header class="hero">
-    <h1 class="app-title"><i class="fa fa-cloud"></i> Nearly city and weather</h1>
-  </header>
-
-
   <main class="flex-row justify-space-between">
-    <section>
-      <div class="col-12 col-md-3">
-        <div class="card">
-          <h3 class="card-header text-uppercase">Search for a City</h3>
-          <form id="weather-form" class="card-body">
-            <label class="form-label" for="cityname">City</label>
-            <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" />
-            <button type="submit" class="btn">Search</button>
-          </form>
-        </div>
-
-        <div class="col-md-3">
-          <div id="weatherCity-buttons">
-            <!-- <button data-language="javascript" class="btn">JavaScript</button>
-            <button data-language="html" class="btn">HTML</button>
-            <button data-language="css" class="btn">CSS</button> -->
-          </div>
-        </div>
-      </div>
-    </section>
-  
     <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container px-5">
-                <a class="navbar-brand" href="#!">Daily Quotes!</a>
+                <a class="navbar-brand" href="#!">Cities General Information!</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Search</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Search</a></li> -->
+                        <li> <form id="weather-form" class="card-body">
+                          <label class="form-label navbar-brand" for="cityname">City</label>
+                          <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input" />
+                          <button type="submit" class="btn nav-link active">Search</button>
+                        </form></li>
                     </ul>
                 </div>
             </div>
@@ -101,10 +78,14 @@
                     </div>
                 </div>
             </div>
-
             <div class="row gx-5 gx-lg-12">
               <iframe id="salaries" height="600px" width="900px" class="flex-row" title="salaries"></iframe>
             </div>
+            <section>
+              <div class="col-12 col-md-6" id="today-weather"></div>
+                <!-- <h2 class="subtitle">forecast </h2> -->
+                <div class = "weatherparams-container" id="weatherCity-buttons"></div>
+              </section>
         </div>
   </main>
 
