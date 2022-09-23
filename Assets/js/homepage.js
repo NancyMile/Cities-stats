@@ -90,8 +90,9 @@ var getCityInfo = function(weatherResults){
                   console.log("PHOTO keys 1 "+Object.keys(data.photos[0]));//attribution ,image
                   console.log("PHOTO keys 2 "+Object.keys(data.photos[0]['image'])); //mobile,web
                   let photo = data.photos[0]['image'].web;
-                  //clear before display again
+                  //image of the selected city
                   document.getElementById("city-image").src = photo;
+                  //salary stats
                   let salary = `https://teleport.org/cities/${slug}/widget/salaries/?currency=USD`;
                   //set the scr for the iframe
                   document.getElementById("salaries").src = salary;
@@ -228,17 +229,16 @@ function renderWeather() {
     weatherCityButtonsEl.innerHTML = "";
     //todoCountSpan.textContent = weather.length;
     
-    // Render a new button for each weather
-    for (var i = 0; i < weather.length; i++) {
-      var WeatherCity = weather[i];
+    // Render a new button for last viewed
+      let lastViewed = weather.length-1;
+      var WeatherCity = weather[lastViewed];
       var weatherCityButton = document.createElement("button");
       weatherCityButton.textContent = WeatherCity;
-      weatherCityButton.setAttribute("data-index", i);
-      weatherCityButton.setAttribute("id", weather[i]);
+      weatherCityButton.setAttribute("data-index", lastViewed);
+      weatherCityButton.setAttribute("id", weather[lastViewed]);
       weatherCityButton.setAttribute("class", "btn");
       //weatherCityButton.appendChild(button);
-      //weatherCityButtonsEl.appendChild(weatherCityButton);
-    }
+      weatherCityButtonsEl.appendChild(weatherCityButton);
   }
 
 function storedWeather() {
