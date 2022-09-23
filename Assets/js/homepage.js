@@ -92,9 +92,10 @@ var getCityInfo = function(weatherResults){
                   let photo = data.photos[0]['image'].web;
                   //clear before display again
                   document.getElementById("city-image").src = photo;
-                  
-                  //displayWeather(data,weatherResults.city.name,);
-              });
+                  let salary = `https://teleport.org/cities/${slug}/widget/salaries/?currency=USD`;
+                  //set the scr for the iframe
+                  document.getElementById("salaries").src = salary;
+                });
               } else {
                   alert('Error: ' + response.statusText);
               }
@@ -236,7 +237,7 @@ function renderWeather() {
       weatherCityButton.setAttribute("id", weather[i]);
       weatherCityButton.setAttribute("class", "btn");
       //weatherCityButton.appendChild(button);
-      weatherCityButtonsEl.appendChild(weatherCityButton);
+      //weatherCityButtonsEl.appendChild(weatherCityButton);
     }
   }
 
