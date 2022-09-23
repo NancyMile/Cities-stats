@@ -130,7 +130,7 @@ var getCityInfo = function(weatherResults){
                   //image of the selected city
                   document.getElementById("city-image").src = photo;
                   //salary stats
-                  let salary = `https://teleport.org/cities/${slug}/widget/salaries/?currency=USD`;
+                  let salary = `https://teleport.org/cities/${slug}/widget/costs/?currency=USD`;
                   //set the scr for the iframe
                   document.getElementById("salaries").src = salary;
                    //quality of life stats
