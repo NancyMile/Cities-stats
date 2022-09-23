@@ -48,18 +48,80 @@ var getCityWeather = function (city) {
           console.log(data);
           //if response was ok then  get the latitud and longitud for quering daily
           getDailyWeather(data);
+          getCityInfo(data);
         })
     .catch(function (error) {
       alert('Unable to connect'+error);
     });
 };
 
+var getCityInfo = function(weatherResults){
+  let lat = weatherResults.city.coord.lat;
+  let lon = weatherResults.city.coord.lon;
+  var apiUrlcity = `https://api.teleport.org/api/locations/${lat},${lon}/?embed=location%3Anearest-cities%2Flocation%3Anearest-city`;
+    //nearrest city
+    fetch(apiUrlcity).then(function (response) {
+      if (response.ok){
+          response.json().then(function (data) {
+            let ver =JSON.stringify(data);
+            console.log("data___ "+JSON.stringify(data));
+            console.log("data keys 1 "+Object.keys(data));//good one  _embedded,_links,coordinates
+            console.log("DATA keys 2 "+Object.keys(data._embedded));//location:nearest-cities,location:nearest-urban-areas
+            console.log("DATA keys 3 "+Object.keys(data._embedded['location:nearest-urban-areas']));
+            console.log("string "+JSON.stringify(data._embedded['location:nearest-urban-areas']));
+            //getin urban areas
+            let urban = JSON.stringify(data._embedded['location:nearest-urban-areas']);// take just the part related to ubran area
+            //convert urban to object again
+            let urban2 = JSON.parse(urban);
+            console.log("DATA keys 4 "+ Object.keys(urban2[0]));//_links,distance_km
+            console.log("DATA keys 5 "+ Object.keys(urban2[0]['_links']['location:nearest-urban-area']));//href, name
+            //getiing the urban area link (to get more information about the place) and name 
+            let urbanAreaName = urban2[0]['_links']['location:nearest-urban-area'].name;
+            console.log("DATA keys 6 "+ urbanAreaName);//San Francisco Bay Area !!!!
+            //create a slug
+            let slug = urbanAreaName.replace(/\W+/g, '-').toLowerCase();
+            //Get image
+            var apiUrlcityPhoto = `https://api.teleport.org/api/urban_areas/slug:${slug}/images/`;
+  
+            fetch(apiUrlcityPhoto).then(function (response) {
+              if (response.ok){
+                  response.json().then(function (data) {
+                  console.log(data);
+                  console.log("PHOTO keys 1 "+Object.keys(data.photos[0]));//attribution ,image
+                  console.log("PHOTO keys 2 "+Object.keys(data.photos[0]['image'])); //mobile,web
+                  let photo = data.photos[0]['image'].web;
+                  //clear before display again
+                  document.getElementById("city-image").src = photo;
+                  
+                  //displayWeather(data,weatherResults.city.name,);
+              });
+              } else {
+                  alert('Error: ' + response.statusText);
+              }
+          });
+
+
+          /////WEDGET
+          //document.querySelector(".salaries").setAttribute("data-url", "https://teleport.org/cities/"+`${slug}`+"/widget/salaries/?currency=USD");
+          //document.getElementById("salaries").innerHTML+=`  <script async class="teleport-widget-script" data-url="https://teleport.org/cities/${{slug}}/widget/salaries/?currency=USD" data-max-width="770" data-height="727" src="https://teleport.org/assets/firefly/widget-snippet.min.js"></script>`;
+          //clear before display again
+          //document.getElementById("city-image").innerHTML = "";
+          //displayWeather(dataCity,weatherResults.city.name);
+      });
+      } else {
+          alert('Error: ' + response.statusText);
+      }
+  });
+};
+
+
 var getDailyWeather = function (weatherResults) {
     let lat = weatherResults.city.coord.lat;
     let lon = weatherResults.city.coord.lon;
     var apiUrlDaily = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=hourly&appid=${myKey}`;
-    var apiUrlcity = `https://api.teleport.org/api/locations/${lat},${lon}/?embed=location%3Anearest-cities%2Flocation%3Anearest-city`;
-    
+    //var apiUrlcity = `https://api.teleport.org/api/locations/${lat},${lon}/?embed=location%3Anearest-cities%2Flocation%3Anearest-city`;
+    //https://api.teleport.org/api/urban_areas/slug:san-francisco-bay-area/images/
+
     fetch(apiUrlDaily).then(function (response) {
         if (response.ok){
             response.json().then(function (data) {
@@ -68,32 +130,12 @@ var getDailyWeather = function (weatherResults) {
             document.getElementById("weatherparams-container").innerHTML = "";
             document.getElementById("today-weather").innerHTML = "";
   
-            displayWeather(data,weatherResults.city.name);
+            displayWeather(data,weatherResults.city.name,);
         });
         } else {
             alert('Error: ' + response.statusText);
         }
     });
-    //nearrest city
-    fetch(apiUrlcity).then(function (response) {
-      if (response.ok){
-          response.json().then(function (data) {
-          console.log(data);
-          //clear before display again
-          // document.getElementById("weatherparams-container").innerHTML = "";
-          // document.getElementById("today-weather").innerHTML = "";
-
-          displayWeather(data,weatherResults.city.name);
-      });
-      } else {
-          alert('Error: ' + response.statusText);
-      }
-  });
-
-
-
-
-
 };
 
 var displayWeather = function (weatherParams, searchTerm) {
