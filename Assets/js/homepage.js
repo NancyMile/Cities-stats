@@ -1,6 +1,7 @@
 var weatherFormEl = document.querySelector('#weather-form');
 var weatherCityButtonsEl = document.querySelector('#weatherCity-buttons');
 var nameInputEl = document.querySelector('#cityname');
+var populationInfo = document.querySelector('#population-info');
 var repoContainerEl = document.querySelector('#weatherparams-container');
 var repoSearchTerm = document.querySelector('#repo-search-term');
 var mainday = document.querySelector('#today-weather');
@@ -80,6 +81,39 @@ var getCityInfo = function(weatherResults){
             console.log("DATA keys 6 "+ urbanAreaName);//San Francisco Bay Area !!!!
             //create a slug
             let slug = urbanAreaName.replace(/\W+/g, '-').toLowerCase();
+            //population information
+            let nearestCity = JSON.stringify(data._embedded['location:nearest-cities']);
+            //convert nearestCity to object again
+            let nearestCity2 = JSON.parse(nearestCity);
+            let cityFullName = nearestCity2[0]['_embedded']['location:nearest-city'].full_name;
+            let populationCity = nearestCity2[0]['_embedded']['location:nearest-city'].population;
+            let distanceCity = nearestCity2[0].distance_km;
+            let citylat = data.coordinates['latlon'].latitude;
+            let citylon = data.coordinates['latlon'].longitude;
+
+            populationInfo.innerHTML =`<section class="weather-card">
+            <h2 class="card-title"><strong>Area and population</h2>
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span class="badge badge-primary badge-pill">${cityFullName}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Population:
+                <span class="badge badge-primary badge-pill">${populationCity}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Nearest City Distance:
+                <span class="badge badge-primary badge-pill">${distanceCity} km</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Latitud:
+                <span class="badge badge-primary badge-pill">${citylat}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Longitud:
+                <span class="badge badge-primary badge-pill">${citylon}</span>
+              </li>
+            </ul>`;
             //Get image
             var apiUrlcityPhoto = `https://api.teleport.org/api/urban_areas/slug:${slug}/images/`;
   
@@ -156,23 +190,21 @@ var displayWeather = function (weatherParams, searchTerm) {
     renderWeather();
     
     // in roder to display five day forecast may have to reduce three out of eight days
-    for (var i = 0; i < weatherParams.daily.length-2; i++) {
-
-      
-
+    //for (var i = 0; i < weatherParams.daily.length-2; i++) {
+      let currentDay = weatherParams.daily[0];
         // Parse the Unix timestamp and convert into any date format.
-        var weatherDate = moment.unix(weatherParams.daily[i].dt).format("MM/DD/YYYY");
-        var uvi = weatherParams.daily[i].uvi;
+        var weatherDate = moment.unix(currentDay.dt).format("MM/DD/YYYY");
+        var uvi = currentDay.uvi;
         //for each day create a card elemets  with the weather conditions
         var weatherCard = document.createElement('section');
         weatherCard.classList = "flex-row weather-card";
-        weatherCard.innerHTML = weatherCard.innerHTML +
-        `<section class="weather-card" id="day${i}">
+        weatherCard.innerHTML = weatherCard.innerHTML =
+        `<section class="weather-card" id="day0">
             <header>${weatherDate}</header>
-            <img src="http://openweathermap.org/img/wn/${weatherParams.daily[i].weather[0].icon}@4x.png" alt="${weatherParams.daily[i].weather[0].description}" />
-            <p>Temp: ${weatherParams.daily[i].temp.day} F</p>
-            <p>Wind: ${weatherParams.daily[i].wind_speed} MPH</p>
-            <p>Humidity: ${weatherParams.daily[i].humidity}%</p>`;
+            <img src="http://openweathermap.org/img/wn/${currentDay.weather[0].icon}@4x.png" alt="${currentDay.weather[0].description}" />
+            <p>Temp: ${currentDay.temp.day} F</p>
+            <p>Wind: ${currentDay.wind_speed} MPH</p>
+            <p>Humidity: ${currentDay.humidity}%</p>`;
 
             // 
             // Low exposure (green): 1-2
@@ -183,15 +215,15 @@ var displayWeather = function (weatherParams, searchTerm) {
             // 
             if(uvi < 2){
                 //green
-                weatherCard.innerHTML = weatherCard.innerHTML + `<p>UV Index: <span class="uvi-low">${weatherParams.daily[i].uvi}</span></p>
+                weatherCard.innerHTML = weatherCard.innerHTML + `<p>UV Index: <span class="uvi-low">${currentDay.uvi}</span></p>
                 </section>`;
             }else if(uvi > 2 && uvi < 7 ){
                 //yellow
-                weatherCard.innerHTML = weatherCard.innerHTML +  `<p> UV Index:<span class="uvi-moderate"> ${weatherParams.daily[i].uvi}</span></p>
+                weatherCard.innerHTML = weatherCard.innerHTML +  `<p> UV Index:<span class="uvi-moderate"> ${currentDay.uvi}</span></p>
                 </section>`;
             }else{
                 //red
-                weatherCard.innerHTML = weatherCard.innerHTML + `<p> UV Index: <span class="uvi-high">${weatherParams.daily[i].uvi}</span></p>
+                weatherCard.innerHTML = weatherCard.innerHTML + `<p> UV Index: <span class="uvi-high">${currentDay.uvi}</span></p>
                 </section>`;
             }
         
@@ -206,7 +238,7 @@ var displayWeather = function (weatherParams, searchTerm) {
            // repoContainerEl.appendChild(weatherCard);
        // }
     
-  }
+  //}//for
   repoContainerEl.appendChild(weatherCard);
 };
 
