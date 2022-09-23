@@ -133,6 +133,10 @@ var getCityInfo = function(weatherResults){
                   let salary = `https://teleport.org/cities/${slug}/widget/salaries/?currency=USD`;
                   //set the scr for the iframe
                   document.getElementById("salaries").src = salary;
+                   //quality of life stats
+                  let qualityLife =`https://teleport.org/cities/${slug}/widget/scores/?currency=USD`;
+                   //set the scr for the iframe
+                  document.getElementById("quality-life").src = qualityLife;
                 });
               } else {
                   alert('Error: ' + response.statusText);
