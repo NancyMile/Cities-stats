@@ -92,7 +92,7 @@ var getCityInfo = function(weatherResults){
             let citylon = data.coordinates['latlon'].longitude;
 
             populationInfo.innerHTML =`<section class="weather-card">
-            <h2 class="card-title"><strong>Area and population</h2>
+            <h2 class="card-title">Population</h2>
             <ul class="list-group">
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <img src="./Assets/img/world-map.png">
@@ -105,7 +105,7 @@ var getCityInfo = function(weatherResults){
                 <span class="badge badge-primary badge-pill">${populationCity}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-              Nearest City Distance:
+              Nearest City:
                 <span class="badge badge-primary badge-pill">${distanceCity} km</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -206,7 +206,7 @@ var displayWeather = function (weatherParams, searchTerm) {
             <h2 class="card-title">Current Weater</h2>
             <ul class="list-group">
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                <img src="http://openweathermap.org/img/wn/${currentDay.weather[0].icon}@4x.png" alt="${currentDay.weather[0].description}" />
+                <img src="http://openweathermap.org/img/wn/${currentDay.weather[0].icon}@2x.png" alt="${currentDay.weather[0].description}" />
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
               Temp:
