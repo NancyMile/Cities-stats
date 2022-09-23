@@ -95,6 +95,9 @@ var getCityInfo = function(weatherResults){
             <h2 class="card-title"><strong>Area and population</h2>
             <ul class="list-group">
               <li class="list-group-item d-flex justify-content-between align-items-center">
+                <img src="./Assets/img/world-map.png">
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span class="badge badge-primary badge-pill">${cityFullName}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -200,11 +203,28 @@ var displayWeather = function (weatherParams, searchTerm) {
         weatherCard.classList = "flex-row weather-card";
         weatherCard.innerHTML = weatherCard.innerHTML =
         `<section class="weather-card" id="day0">
-            <header>${weatherDate}</header>
-            <img src="http://openweathermap.org/img/wn/${currentDay.weather[0].icon}@4x.png" alt="${currentDay.weather[0].description}" />
-            <p>Temp: ${currentDay.temp.day} F</p>
-            <p>Wind: ${currentDay.wind_speed} MPH</p>
-            <p>Humidity: ${currentDay.humidity}%</p>`;
+            <h2 class="card-title">Current Weater</h2>
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <img src="http://openweathermap.org/img/wn/${currentDay.weather[0].icon}@4x.png" alt="${currentDay.weather[0].description}" />
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Temp:
+                <span class="badge badge-primary badge-pill">${currentDay.temp.day} F</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Wind:
+                <span class="badge badge-primary badge-pill">${currentDay.wind_speed} MPH</span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Humidity:
+                <span class="badge badge-primary badge-pill">${currentDay.humidity}%</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+              Wind:
+                <span class="badge badge-primary badge-pill">${currentDay.wind_speed}</span>
+              </li>`;
 
             // 
             // Low exposure (green): 1-2
@@ -215,15 +235,27 @@ var displayWeather = function (weatherParams, searchTerm) {
             // 
             if(uvi < 2){
                 //green
-                weatherCard.innerHTML = weatherCard.innerHTML + `<p>UV Index: <span class="uvi-low">${currentDay.uvi}</span></p>
+                weatherCard.innerHTML = weatherCard.innerHTML + `<li class="list-group-item d-flex justify-content-between align-items-center">
+                UV Index:
+                  <span class="badge badge-primary badge-pill">${currentDay.uvi}</span>
+                  </li>
+                </ul>
                 </section>`;
             }else if(uvi > 2 && uvi < 7 ){
                 //yellow
-                weatherCard.innerHTML = weatherCard.innerHTML +  `<p> UV Index:<span class="uvi-moderate"> ${currentDay.uvi}</span></p>
+                weatherCard.innerHTML = weatherCard.innerHTML +  `<li class="list-group-item d-flex justify-content-between align-items-center">
+                UV Index:
+                  <span class="badge badge-primary badge-pill">${currentDay.uvi}</span>
+                  </li>
+                </ul>
                 </section>`;
             }else{
                 //red
-                weatherCard.innerHTML = weatherCard.innerHTML + `<p> UV Index: <span class="uvi-high">${currentDay.uvi}</span></p>
+                weatherCard.innerHTML = weatherCard.innerHTML + `<li class="list-group-item d-flex justify-content-between align-items-center">
+                UV Index:
+                  <span class="badge badge-primary badge-pill">${currentDay.uvi}</span>
+                  </li>
+                </ul>
                 </section>`;
             }
         
