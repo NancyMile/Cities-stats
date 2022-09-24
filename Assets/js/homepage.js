@@ -65,20 +65,20 @@ var getCityInfo = function(weatherResults){
       if (response.ok){
           response.json().then(function (data) {
             let ver =JSON.stringify(data);
-            console.log("data___ "+JSON.stringify(data));
-            console.log("data keys 1 "+Object.keys(data));//good one  _embedded,_links,coordinates
-            console.log("DATA keys 2 "+Object.keys(data._embedded));//location:nearest-cities,location:nearest-urban-areas
-            console.log("DATA keys 3 "+Object.keys(data._embedded['location:nearest-urban-areas']));
-            console.log("string "+JSON.stringify(data._embedded['location:nearest-urban-areas']));
+            // console.log("data___ "+JSON.stringify(data));
+            // console.log("data keys 1 "+Object.keys(data));//good one  _embedded,_links,coordinates
+            // console.log("DATA keys 2 "+Object.keys(data._embedded));//location:nearest-cities,location:nearest-urban-areas
+            // console.log("DATA keys 3 "+Object.keys(data._embedded['location:nearest-urban-areas']));
+            // console.log("string "+JSON.stringify(data._embedded['location:nearest-urban-areas']));
             //getin urban areas
             let urban = JSON.stringify(data._embedded['location:nearest-urban-areas']);// take just the part related to ubran area
             //convert urban to object again
             let urban2 = JSON.parse(urban);
-            console.log("DATA keys 4 "+ Object.keys(urban2[0]));//_links,distance_km
-            console.log("DATA keys 5 "+ Object.keys(urban2[0]['_links']['location:nearest-urban-area']));//href, name
+            // console.log("DATA keys 4 "+ Object.keys(urban2[0]));//_links,distance_km
+            // console.log("DATA keys 5 "+ Object.keys(urban2[0]['_links']['location:nearest-urban-area']));//href, name
             //getiing the urban area link (to get more information about the place) and name 
             let urbanAreaName = urban2[0]['_links']['location:nearest-urban-area'].name;
-            console.log("DATA keys 6 "+ urbanAreaName);//San Francisco Bay Area !!!!
+            // console.log("DATA keys 6 "+ urbanAreaName);//San Francisco Bay Area !!!!
             //create a slug
             let slug = urbanAreaName.replace(/\W+/g, '-').toLowerCase();
             //population information
@@ -207,7 +207,7 @@ var displayWeather = function (weatherParams, searchTerm) {
         weatherCard.classList = "flex-row weather-card";
         weatherCard.innerHTML = weatherCard.innerHTML =
         `<section class="weather-card" id="day0">
-            <h2 class="card-title">Current Weater</h2>
+            <h2 class="card-title">Current Weather</h2>
             <ul class="list-group">
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <img src="http://openweathermap.org/img/wn/${currentDay.weather[0].icon}@2x.png" alt="${currentDay.weather[0].description}" />
